@@ -1,0 +1,154 @@
+<a href="<?php $filename?>?page=starlogo/resnick/">Click here for a better idea of what Starlogo is and does</a><p>
+
+Summer 1997<br>
+Upward Bound Regional Math Science Center<br>
+University of Maine at Orono<br>
+Mentors: Larry Latour, Jeff Allen<br>
+U-32, East Montpelier, VT.<br>
+
+<center>
+Modeling Settlement Formation Using Starlogo<p>
+</center>
+Abstract<br>
+If individual agents are programmed in Starlogo to gather and trade resources, congregations will form. A computer program was created to accomplish this. This
+model consisted of a hypothetical island and two types of creatures with two resources. This model was analyzed in two ways. The distance between the
+resources, and the location of these resources was examined to discover which configuration would better lend itself to settlements. The results were that
+resources placed close together and on a peninsula of an island provide the best scenario for congregation. <p>
+
+Introduction<br>
+Although it is commonly assumed that a centralized leader tells birds to form a flock, this is not necessarily true. Birds typically follow simple rules and by doing
+this, a flock "emerges." A bird flock is an example of a decentralized system. Starlogo is a computer language developed at MIT, it was created to program
+individuals to follow simple rules,  thus creating patterns of emergence in the group behavior as a whole (Resnick, 1994). Researchers have built a wide variety of
+decentralized models, including the flocking example described above. In this project Starlogo was used to study and model settlements or congregations of
+creatures. By programming two types of individuals to gather and trade resources, congregations of individuals should form around the resources. <p>
+
+Methods and Materials <br>
+Starlogo was created by Mitchel Resnick, a professor at MIT. The language was based on his theories about decentralized systems. A simple view of the Starlogo
+world is a collection of agents, or "Turtles," moving around on top of (and interacting with) a coordinate plane of "Patches." Most importantly the Starlogo world
+consists of four important components or "windows" : procedures, graphics, interface, and plot. <p>
+
+-The Procedures Window is where the programmer types in commands for Turtles, Patches, and the observer. "Turtle" is another word for agent; they are not
+actually Turtles, but they can represent any sort of individual units, from rabbits to sand particles to light. The Patches are "patches" of ground in the Turtle's world. Patches and
+Turtles both are able to perform similar operations, but only the Turtles can move. The observer can be compared to a "god Turtle in the sky" who is the single
+centralized component of the decentralized Starlogo world. The observer can count the number of Turtles in a certain location, various other data collecting
+functions. In the Procedures Window, the programmer can also create variables for the Turtles to remember, such as where their resource was, or their energy
+levels. <p>
+
+-In the Interface Window, the programmer creates Buttons, Sliders and Monitors for the functions written in the Procedures Window. A Button turns on its
+function. A Slider is used to control the rates of actions without having to restarting the model. A Monitor is used to calculate the number of Turtles or Patches in a
+certain area of the screen. <p>
+
+-The Graphics Window is used to view the model. It is set up like a coordinate plane in mathematics, with the origin marking the center Patch. The window can be
+varied in size depending on how much memory the computer has available. Double clicking on any Turtle at any time can access the Turtles variables
+and memory. If a graphing procedure was created, the Plot Window can be viewed to see the dynamics of the model in a more specific and easily analyzable
+manner.<p>
+
+Prior Research <br>
+To learn more about the applications of Starlogo models made by professors and students were studied. After learning the basics of Starlogo, the topic of the
+model for this project was established. This model was going to look into human settlement formation. We believed that settlements would form where the
+individuals used the least amount of energy in gathering their food, or "resource." This settlement should be around the actual resources. Other models have been
+created to explore this concept (Butzer, 1982 Axtell, 1996 Sabloff, 1978). <p>
+
+The Starlogo Model <br>
+In order to get an idea of the rules that needed to be incorporated into the final, more complex model for this project, a simple model was built. It consisted of two
+populations gathering and trading only two resources on a theoretical island. This simple model turned out to be complex enough that the original model was
+forsaken due to lack of time.  <p>
+
+The Patches of this model were drawn in the shape of an island to limit the creatures' movement and to lend reality to the model. On this island there were two
+Resources that the programmer could move as s/he saw fit. These were a red (strawberry) Resource, and a blue (blueberry) Resource. The model began with 100
+Turtles of each color. <p>
+
+The goal of emergence is to allow aggregate settlements to form from individuals acting certain way, not to force the aggregate behavior. An example of this
+forcing would be to tell all the Turtles that they have to stay within a 10 Patches of their resources. This would be an example of a centralized system. Starlogo was
+designed to make rules that every individual performs. <p>
+
+This is briefly what the Starlogo model does: <br>
+All the red Turtles begin by wandering randomly around the island looking for the strawberry. When one comes across its goal, it picks a berry. Then it wanders
+randomly looking for a blue creature to trade with. While it walks it uses up. 009 energy points. When it sees a blue Turtle it heads toward it. When they meet, the
+first Turtle takes the other's resource and metabolizes it, when a Turtle metabolizes it turns white until it obtains one of its berries. Each time a Turtle metabolizes,
+they gain 3 energy points. After this the Turtle goes back to its resource again, picks a berry, and then heads either towards its last trade spot, or the closest Turtle
+of the other color. If a Turtle had moved 30 steps away from their last trade spot, the forget it's coordinates. If a Turtle has no resource of any kind they change
+color. If they began as red, they change to burgundy, if they began as blue they turn gray/blue. This was used to keep track of where the most successful Turtles
+
+were. When a Turtle's energy level becomes 0 they die. If a Turtle's energy level reaches the "hatch-threshold" (a slider varying from 0 to 50) they clone, splitting
+their energy level between the two. In future models evolution could be examined by passing on the successful parents trading habits.<p>
+
+These are the specific rules. They are divided up into three categories: individuals' needs, trading, and reporting. <p>
+
+Set-Up<br>
+-Places 100 new red Tutles, and 100 new blue Turtles on the screen. The Turtles choose a random number between 0 and 4 for their energy level<p>
+
+Eat<br>
+-If the Turtle is standing on a berry that is it's color, it takes one unit <p>
+
+Metabolize <br>
+-If a Turtle has both a blue and a red berry, it metabolizes them and gains 3 energy points,<p>
+
+Trade <br>
+-If a Turtle bumps into a Turtle of the other color, the Turtle that got there first takes the other Turtle's resource and remembers that spot by setting it's x,y coordinates to the coordinates of that Patch <p>
+
+Forget <br>
+-If a Turtle has moved 10 steps away from it's trade, it forgets that it trade. (-Reasoning; so that the Turtles can develop new trading places, and are not standing around waiting for somebody to come visit them.) <p>
+
+To trade (move to the last trade made)<br>
+-If a Turtle that has it's berry sees[i] a Turtle of the opposite color it heads toward it <p>
+
+Reproduce<br>
+-If a Turtle's energy is greater than the level indicated on the hatch-level slider, it clones and divides its energy in half and gives half to it's offspring.<p>
+
+Move-it <br>
+-Each Turtle picks a random heading, and moves forward one.<br>
+-(if the Patch color underneath the Turtle is water, turn around and move forward three steps) <br>
+-decrease the Turtle's energy level by. 009, so that they use energy as they move <br>
+-if the Turtle has eaten[ii] and the distance from the Turtle to its last trade is 30 steps, it heads back towards its berry and tells itself that it hasn't eaten[iii]<p>
+
+Death <br>
+-If a Turtle's energy is less than or equal to zero, it dies. <p>
+
+Graph-it <br>
+-This plots the count of all the blue, red, gray, and burgundy Turtles. It also plots the total of all the red and burgundy Turtles in orange, and the total of all the blue and gray Turtles in purple. <p>
+
+To begin the model, the Set-up button was pushed, then the Patches file, "island," was imported. This provided the Patches for the Turtle's world, importing only
+needed to be done when a model was first opened. To run the model, the "Start-it" button was pushed, this activates Move-it, Forget, Eat, Trade, Metabolize,
+To-trade, Death, and Reproduce. The Graph-it button could be turned on separately. The Start-it button also slowed down the model with the "Slow-down" button.
+The "Stop-it" button turns all of these buttons off. The model could be started and stopped at anytime. <p>
+
+Results <br>
+Three investigations were conducted to discover two factors other than trading, these factors were the distance between the resources, and the location on the
+island of the resources in relation to the island's shape. <p>
+
+In Investigation I the distance between the berries was one half of a centimeter. This investigation was performed on this project's standard model. The running of
+the model produced exponential growth of the creatures. Because the berries were unlimited resources, once the population took off, the probability of two Turtles
+bumping into each other was greatly increased. The settlement of the creatures was on top of the resources. Most of the blue creatures were on the blueberry side,
+and the red creatures were on the strawberry side. <p>
+
+In Investigation 2 the distance between the berries was 2 centimeters.  The graph of this reached an equilibrium of ~400 creatures. There seemed to be two
+settlements, one on each of the berries, with creatures going between them. <p>
+
+In Investigation 3 the berries were placed in the top left, near a peninsula. As with Investigation I, the probability of two Turtles bumping into one another, and
+their resources, due to the location of the resources caused a faster increase in the Turtle populations. The berries were one centimeter apart. This investigation
+produced an exponential graph as well, at a faster rate than the first experiment. <p>
+
+These investigations suggest that when berries are close together, larger settlements are able form. Investigation 3 also suggests that the best place for a
+settlement is in an area of high traffic. If there are limited exits from an area most Turtles must pass over the berries. By staying and trading,
+eventually nearly all Turtles who are alive will wander into the settlement. By creating a simplified model with individual rules, settlements formed. These
+settlements formed at the resources. This model did not take into account all reasons for settlement formation. Had there been river or water travel, these
+settlements would most likely have come to life near, or on the rivers of the island and where there were resources nearby. If there were two islands with resources
+on each that the Turtles needed, settlements would have formed on the coasts closer to the other island. These are directions for further exploration.<p>
+
+Works Cited <br>
+-Resnick, Mitchel, Turtles. Termites, and Traffic Jams. Cambridge, Massachusetts: The MIT Press, 1994. <br>
+-Axtell, Robert, and Epstein, Joshua M. Growing Artificial Societies. Cambridge, Massachusetts:  The MIT Press, 1996. <br>
+-Butzer, Karl W, Archaeology as Human Ecology. New York: Cambridge University Press, 1982. <br>
+-Sabloff, Jeremy A. Simulations in Archaeology. New Mexico: University of New Mexico Press, 1978. <p>
+
+Acknowledgments<br>
+I'd especially like to thank Larry Latour for hours of patience, and for rubbing off his passion of modeling on me. Now, when I walk around I am constantly seeing
+things that would be interesting to model. I'd like to thank Jeff Allen for taking time off of whatever he was doing, to fix a problem or answer a question I had with
+my model. Thanks to Tim for recommending me for this project. I plan on taking Starlogo home with me and building more models, perhaps for an independent
+study, or maybe just for amusement. I've already got some great ideas that I was unable to finish in time for them to be published. Thanks to The Waterberries for
+their patience, perseverance and understanding when I was occupied with my dying model. <p>
+
+[i] Meaning the turtle is inside its vision range.<br>
+[ii] This is included so that, at the beginning, the turtles dont remember the origin, but move normally.<br>
+[iii] This is included so that the turtles do not continue to use this procedure and remain at their resource once they have reached it.<br>
