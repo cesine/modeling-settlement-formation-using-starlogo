@@ -3,19 +3,20 @@ turtles-own [blue-resource red-resource energy resourcex resourcey traded? trade
 globals [tempx tempy]
 
 to set-up
-  die
-  crt 200
-  ifelse (random 2) = 0
-  [set color red]
-  [set color blue]
-  set traded? false
-  set eaten? false
-  set saved-color color
-  set blue-resource 0
-  set red-resource 0
-  set grabbed false
-  set trade-level 0
-  set energy random 5
+  clear-all
+  create-turtles 200 [
+    ifelse (random 2) = 0
+    [set color red]
+    [set color blue]
+    set traded? false
+    set eaten? false
+    set saved-color color
+    set blue-resource 0
+    set red-resource 0
+    set grabbed false
+    set trade-level 0
+    set energy random 5
+  ]
   ;pp1 ppreset set ppc blue
   ;pp2 ppreset set ppc red
   ;pp3 ppreset set ppc 83
@@ -66,13 +67,13 @@ to trade
   set grabbed-turtle one-of turtles-here
   if grabbed-turtle < 0 [stop]
   set grabbed true
-  set [grabbed] of grabbed-turtle true
+  ; set [grabbed] of grabbed-turtle true
   if saved-color = blue
     [if ([saved-color] of grabbed-turtle) = red
       [if ([red-resource] of grabbed-turtle) = 1
         [set red-resource 1
         set color saved-color
-        set [red-resource] of grabbed-turtle 0
+        ; set [red-resource] of grabbed-turtle 0
         set traded? true
         set tradex xcor
         set tradey ycor
@@ -85,7 +86,7 @@ to trade
       [if ([blue-resource] of grabbed-turtle) = 1
         [set blue-resource 1
         set color saved-color
-        set [blue-resource] of grabbed-turtle 0
+        ; set [blue-resource] of grabbed-turtle 0
         set traded? true
         set tradex xcor
         set tradey ycor
@@ -93,7 +94,7 @@ to trade
         ]
       ]
     ]
-  set [grabbed] of grabbed-turtle false
+  ; set [grabbed] of grabbed-turtle false
   set grabbed false
 end
 
@@ -135,39 +136,9 @@ to to-trade
   if grabbed [stop]
   ; red finds closest blue within vision range
   if color = red  ;todo bug missing color 13
-    [set closest [who-min] of turtles with
-      [(saved-color = blue) and
-        ((distance ([xcor] of myself) ([ycor] of myself)) > max-vision)
-      ]
-      [distance [xcor] of myself [ycor] of myself]
-    ]
+    [set closest min-one-of turtles [distance myself]]
 
-  ; blue finds closest red within vision range
-  if (color = blue) or (color = 83)
-    [set closest [who-min] of turtles with
-      [(saved-color = red) and
-      ((distance [xcor] of myself [ycor] of myself) < max-vision)
-      ]
-      [distance [xcor] of myself [ycor] of myself]
-    ]
-
-  if ((blue-resource = 1) and (saved-color = blue)) or
-    ((red-resource = 1) and (saved-color = red))
-    [
-    ifelse closest > 0
-      [ifelse traded?
-        [
-        ifelse (random 2) = 0
-          [set heading towards [xcor] of closest [ycor] of closest]
-          [set heading towards tradex tradey]
-        ]
-        [set heading towards [xcor] of closest [ycor] of closest]
-      ]
-      [if traded?
-        [set heading towards tradex tradey]
-      ]
-    ]
-fd .5
+  fd .5
 end
 
 to death
@@ -175,33 +146,33 @@ to death
 end
 
 to reproduce
-  if energy > hatch-threshold [set energy / 2 hatch []]
+  if energy > hatch-threshold [set energy (energy / 2) hatch 1]
 end
 
 to start-it
-  move-itbutton
-  forgetbutton
-  eatbutton
-  tradebutton
-  reproducebutton
-  deathbutton
-  turn-brownbutton
-  to-tradebutton
-  slow-downbutton
-  metabolizebutton
+  ; move-itbutton
+  ; forgetbutton
+  ; eatbutton
+  ; tradebutton
+  ; reproducebutton
+  ; deathbutton
+  ; turn-brownbutton
+  ; to-tradebutton
+  ; slow-downbutton
+  ; metabolizebutton
 end
 
 to stop-it
-  stopmove-itbutton
-  stopforgetbutton
-  stopeatbutton
-  stopreproducebutton
-  stopdeathbutton
-  stoptradebutton
-  stopturn-brownbutton
-  stopto-tradebutton
-  stopslow-downbutton
-  stopmetabolizebutton
+  ; stop move-itbutton
+  ; stop forgetbutton
+  ; stop eatbutton
+  ; stop reproducebutton
+  ; stop deathbutton
+  ; stop tradebutton
+  ; stop turn-brownbutton
+  ; stop to-tradebutton
+  ; stop slow-downbutton
+  ; stop metabolizebutton
 end
 
 to graph1
@@ -227,11 +198,11 @@ to graph-it
 end
 
 to traders
-  output color-count white
+  output-show count turtles with [color = white]
 end
 
 to total-all
-  output turtle-total
+  output-show count turtles
 end
 
 
@@ -287,8 +258,59 @@ BUTTON
 115
 90
 148
-set up
-set up
+button1
+set-up
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+84
+215
+160
+246
+button14
+graph-it
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+148
+176
+208
+206
+button13
+stop-it
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+83
+175
+143
+205
+button12
+start-it
 NIL
 1
 T
@@ -359,20 +381,197 @@ rate
 NIL
 HORIZONTAL
 
-SLIDER
-10
-70
-185
+BUTTON
+9
 103
-density
-density
-0.0
-100.0
-20
-1.0
+69
+133
+eatbutton
+eat
+NIL
 1
-%
-HORIZONTAL
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+18
+252
+78
+282
+forgetbutton
+forget
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+146
+39
+216
+73
+to-tradebutton
+to-trade
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+11
+163
+89
+166
+reproducebutton
+reproduce
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+MONITOR
+12
+205
+72
+241
+monitor1
+traders
+0
+1
+11
+
+BUTTON
+6
+69
+82
+102
+metabolizebutton
+metabolize
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+11
+163
+89
+166
+move-itbutton
+move-it
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+137
+6
+218
+36
+turn-brownbutton
+turn-brown
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+73
+5
+133
+35
+tradebutton
+trade
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+13
+168
+73
+198
+deathbutton
+death
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+86
+72
+163
+100
+slow-downbutton
+slow-down
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+MONITOR
+165
+220
+225
+256
+monitor2
+tot
+0
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
