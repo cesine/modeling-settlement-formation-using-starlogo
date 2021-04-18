@@ -1,0 +1,239 @@
+turtles-own [blue-resource red-resource energy resourcex resourcey traded? tradex tradey grabbed eaten? grabbed-turtle saved-color closest trade-level]
+
+globals [tempx tempy]
+
+to set-up
+  die
+  crt 200
+  ifelse (random 2) = 0
+  [setc red]
+  [setc blue]
+  settraded? false
+  seteaten? false
+  setsaved-color color
+  setblue-resource 0
+  setred-resource 0
+  setgrabbed false
+  settrade-level 0
+  setenergy random 5
+  pp1 ppreset setppc blue
+  pp2 ppreset setppc red
+  pp3 ppreset setppc 83
+  pp4 ppreset setppc 13
+  pp5 ppreset setppc orange
+  pp6 ppreset setppc 115
+  setplot-yrange 0 1000
+  setplot-xrange 0 1000
+  setplot-ylabel Pop
+  reset-timer
+end
+
+to slow-down
+  wait (rate / 5)
+end
+
+to move-it
+  if grabbed [stop]
+  rt random 40
+  lt random 40
+  fd 1
+  if pc = 95 [seth heading - 180 fd 3]
+  setenergy energy - .009
+  settrade-level trade-level - 1
+  if eaten? and (trade-level < -20) and (dumb-smart = 1)
+    [goto-resource
+    settrade-level 0
+    seteaten? false]
+end
+
+to eat
+  if grabbed [stop]
+  if pc = saved-color
+    [if saved-color = blue
+      [setblue-resource 1
+      setc blue]
+    if saved-color = red
+      [setred-resource 1
+      setc red]
+    setresourcex xcor
+    setresourcey ycor
+    seteaten? true
+    ]
+end
+
+to trade
+  if grabbed [stop]
+  setgrabbed-turtle one-of-turtles-here
+  if grabbed-turtle < 0 [stop]
+  setgrabbed true
+  setgrabbed-of grabbed-turtle true
+  if saved-color = blue
+    [if (saved-color-of grabbed-turtle) = red
+      [if (red-resource-of grabbed-turtle) = 1
+        [setred-resource 1
+        setc saved-color
+        setred-resource-of grabbed-turtle 0
+        settraded? true
+        settradex xcor
+        settradey ycor
+        settrade-level 10
+        ]
+      ]
+    ]
+  if color = red
+    [if (saved-color-of grabbed-turtle) = blue
+      [if (blue-resource-of grabbed-turtle) = 1
+        [setblue-resource 1
+        setc saved-color
+        setblue-resource-of grabbed-turtle 0
+        settraded? true
+        settradex xcor
+        settradey ycor
+        settrade-level 10
+        ]
+      ]
+    ]
+  setgrabbed-of grabbed-turtle false
+  setgrabbed false
+end
+
+to forget
+if trade-level < 0
+  [settraded? false]
+end
+
+to metabolize
+  if grabbed [stop]
+  if (blue-resource = 1) and (red-resource = 1)
+    [setenergy energy + 5
+    setblue-resource 0
+    setred-resource 0
+    setc white
+    goto-resource
+    seteaten? false
+    setc saved-color
+    ]
+end
+
+to goto-resource
+  wait (rate / 10)
+  seth towards resourcex resourcey
+  if (distance resourcex resourcey) > 1
+    [fd 1
+    goto-resource
+    ]
+end
+
+to turn-brown
+  if saved-color = blue and (blue-resource = 0) and (red-resource = 0)
+    [setcolor 83]
+  if saved-color = red and (blue-resource = 0) and (red-resource = 0)
+    [setcolor 13]
+end
+
+to to-trade
+  if grabbed [stop]
+  ; red finds closest blue within vision range
+  if color = red  ;todo bug missing color 13
+    [setclosest who-min-of-turtles-with
+      [(saved-color = blue) and
+        ((distance xcor-of myself ycor-of-myself) > max-vision)
+      ]
+      [distance xcor-of-myself ycor-of-myself]
+    ]
+
+  ; blue finds closest red within vision range
+  if (color = blue) or (color = 83)
+    [setclosest who-min-of-turtles-with
+      [(saved-color = red) and
+      ((distance xcor-of-myself ycor-of-myself) < max-vision)
+      ]
+      [distance xcor-of-myself ycor-of-myself]
+    ]
+
+  if ((blue-resource = 1) and (saved-color = blue)) or
+    ((red-resource = 1) and (saved-color = red))
+    [
+    ifelse closest > 0
+      [ifelse traded?
+        [
+        ifelse (random 2) = 0
+          [seth towards xcor-of-closest ycor-of-closest]
+          [seth towards tradex tradey]
+        ]
+        [seth towards xcor-of-closest ycor-of-closest]
+      ]
+      [if traded?
+        [seth towards tradex tradey]
+      ]
+    ]
+fd .5
+end
+
+to death
+  if energy < 0 [die]
+end
+
+to reproduce
+  if energy > hatch-threshold [setenergy / 2 hatch []]
+end
+
+to start-it
+  move-itbutton
+  forgetbutton
+  eatbutton
+  tradebutton
+  reproducebutton
+  deathbutton
+  turn-brownbutton
+  to-tradebutton
+  slow-downbutton
+  metabolizebutton
+end
+
+to stop-it
+  stopmove-itbutton
+  stopforgetbutton
+  stopeatbutton
+  stopreproducebutton
+  stopdeathbutton
+  stoptradebutton
+  stopturn-brownbutton
+  stopto-tradebutton
+  stopslow-downbutton
+  stopmetabolizebutton
+end
+
+to graph1
+  pp1 plot color-count blue
+  pp2 plot color-count red
+  pp3 plot color-count 83
+  pp4 plot color-count 13
+  pp5 plot (color-count red) + (color-count 13)
+  pp6 plot (color-count blue) + (color-count 83)
+end
+
+to graph2
+  pp5 plot count-turtles-with
+    [ (xcor >= 0) and (ycor <= 0) and
+    ((color = red) or (color = 13)) ]
+  pp6 plot count-turtles-with
+    [ (xcor >= 0) and (ycor <= 0) and
+    ((color = blue) or (color = 83)) ]
+end
+
+to graph-it
+  every .2 [graph1]
+end
+
+to traders
+  output color-count white
+end
+
+to total-all
+  output turtle-total
+end
+
+
+
+
